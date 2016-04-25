@@ -180,10 +180,14 @@ function nextRoundSuccess(data) {
 			var hero = data.hero;
 			if(battle.status.over) {
 				logInfo("Battle is over!");
-				if(battle.status.winner == hero.name)
-					drawTreasureScreen(battle);
-				else
-					drawDeathScreen(hero);
+				if(battle.status.winner == hero.name) {
+					drawBattleScreen(battle);
+					setTimeout(function() { drawTreasureScreen(battle); },5500);					
+				}
+				else {
+					drawBattleScreen(battle);
+					setTimeout(function() { drawDeathScreen(hero); },5500);										
+				}
 			}
 			else
 				drawBattleScreen(battle);			
