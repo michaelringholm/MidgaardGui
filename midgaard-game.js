@@ -14,8 +14,8 @@ $(function() {
 	
 	canvasLayer1 = document.getElementById("canvasLayer1");
 	canvasLayer2 = document.getElementById("canvasLayer2");
-	canvasWidth = 800;
-	canvasHeight = 300;
+	canvasWidth = 1200;
+	canvasHeight = 800;
 	canvasLayer1.width = canvasWidth;
 	canvasLayer1.height = canvasHeight;
 	canvasLayer2.width = canvasWidth;
@@ -242,7 +242,7 @@ function chooseHero() {
 
 function chooseHeroSuccess(data) {
 	logInfo("choose hero OK!");
-	if(data) {
+	if(data) {		
 		if(data.battle && data.battle.mob && data.battle.hero) { // The hero is already in a fight
 			drawBattleScreen(data.battle);
 			logInfo("you resume the battle!");
@@ -299,6 +299,9 @@ function loginSuccess(serverGameSession) {
 	logInfo("login OK!");
 	logInfo(JSON.stringify(serverGameSession));
 	
+	$(".function").hide();
+	$("#chooseHeroContainer").show();
+	
 	gameSession.publicKey = serverGameSession.publicKey;
 	var heroes = serverGameSession.data.heroes;
 
@@ -316,6 +319,9 @@ function logInfo(msg) {
 }
 
 function drawMap(data) {
+	$(".function").hide();
+	$(canvasLayer1).show();
+	$(canvasLayer2).show();
 	var ctx1 = canvasLayer1.getContext("2d");
 	var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
@@ -342,7 +348,7 @@ function drawMapTile(canvas, xPos, yPos, terrainType) {
 	var img = null;
 	
 	if(terrainType == "w")
-		img = document.getElementById("forest");
+		img = document.getElementById("woods");
 	else if(terrainType == "m")
 		img = document.getElementById("mountains");
 	else if(terrainType == "h")
@@ -393,33 +399,61 @@ function moveHero(keyCode) {
 	}
 	else
 		logInfo("Invalid move direction!");
+};  
+
+function battleAnimation1(targetHPDiv, targetCardDiv, damageImpact, finalHP) { 
+	var audio = new Audio('./resources/sounds/sword-attack.wav');
+	//var orgLeftPos = $(targetHPDiv).css("left");
+	//$(targetHPDiv).css("left", orgLeftPos-40);
+	
+	$(targetHPDiv)
+		.switchClass("plainText", "strikedText", 1500)
+		.effect("pulsate", 2500)
+		.switchClass("strikedText", "plainText", 1000)
+		.effect("pulsate", function() { $(targetHPDiv).html(damageImpact + ' damage!').fadeIn(100);  audio.play(); }, 2500)
+		.effect("pulsate", function() { $(targetHPDiv).html(finalHP + ' HP').fadeIn(100);}, 1500)
+		.fadeIn(100, function() { $(targetCardDiv).effect("shake", 800);});
 };
 
 function drawBattleScreen(battle) {
-	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
-	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
-		
+	$(".function").hide();
+	$(canvasLayer1).hide();
+	$(canvasLayer2).hide();
+	
+	$("#battleContainer").show()
+
 	$("#container").css("background-image", "url('./resources/images/battle-background.jpg')"); 
-	var mobImg = document.getElementById("wildBoar");
+	$("#battleMobContainer").attr("src", $("#wildBoar").attr("src"));
+	$("#battleHeroContainer").attr("src", $("#warriorHero").attr("src"));
 	
-	if(battle.mob.key == "orc")
-		mobImg = document.getElementById("orc");
+	//if(battle.mob.key == "orc")
+		//mobImg = document.getElementById("orc");
 		
-	var heroImg = document.getElementById("warriorHero");
 	if(battle.hero.hp <= 0)
-		heroImg = document.getElementById("dead");
+		$("#battleMobContainer").attr("src", $("#dead").attr("src"));
 	if(battle.mob.hp <= 0)
-		mobImg = document.getElementById("dead");
+		$("#battleHeroContainer").attr("src", $("#dead").attr("src"));
+		
+	if(battle.round*1 > 0) {
+		$("#heroHP").html((battle.hero.hp*1+battle.mob.damageImpact*1) + " HP");
+		$("#mobHP").html((battle.mob.hp*1+battle.hero.damageImpact*1) + " HP");
+		
+		if(battle.hero.damageImpact > 0) {
+			battleAnimation1("#mobHP", "#battleMobContainer", battle.hero.damageImpact*1, battle.mob.hp*1);
+		}
+
+		setTimeout(function() {
+			if(battle.mob.damageImpact > 0) {
+				battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1);
+			}
+		},4500);
+	}
+	else {
+		$("#heroHP").html(battle.hero.hp + " HP");
+		$("#mobHP").html(battle.mob.hp + " HP");
+	}
 	
-	ctx1.drawImage(heroImg,50,50,120,190);
-	ctx1.drawImage(mobImg,450,50,120,190);
-	//ctx1.drawImage(mobImg,450,50,378,600,0,0,120,190);
-	
-	ctx1.font = "22px Arial";
-  ctx1.fillText(battle.hero.hp + " HP",80,30);
-	ctx1.fillText(battle.mob.hp + " HP",480,30);
+	$("#battleToolbar").show();
 }
 
 function drawCharacterSheet(hero) {
@@ -438,6 +472,9 @@ function drawCharacterSheet(hero) {
 }
 
 function drawTown(town) {
+	$(".function").hide();
+	$(canvasLayer1).show();
+	$(canvasLayer2).show();
 	var ctx1 = canvasLayer1.getContext("2d");
 	var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);

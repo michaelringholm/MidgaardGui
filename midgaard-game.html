@@ -3,20 +3,50 @@
 	<link rel="stylesheet" href="./midgaard-game.css" type="text/css">	
 	
 	<script type="text/javascript" src="./jquery-2.2.2.min.js"></script>
+	<script type="text/javascript" src="./jquery-ui.min.js"></script>	
 	<script type="text/javascript" src="./midgaard-game.js"></script>
 </head>
 <body>
 
 <div id="container" tabindex='100'>
+
 	<div id="loginContainer" class="function">
 		<div style="margin-top: 10px;; margin-left: 10px;">
 			<div style="margin: 4px;"><div class="label">Login:</div><input id="login" type="text" value="MyLogin"/></div>
 			<div style="margin: 4px;"><div class="label">Password:</div><input id="password" type="password" value="MyPassword" /></div>
 			<div id="btnLogin" class="button">Login</div>
+			<div class="label" style="width: auto;">or</div>
+			<div id="btnShowCreateLogin" class="button">Create new login</div>
 		</div>
 	</div>
-	<canvas id="canvasLayer1"></canvas>
-	<canvas id="canvasLayer2"></canvas>
+	
+	<div id="chooseHeroContainer" class="function" style="display:none;">
+		<div id="btnChooseHero" class="button">Choose Hero</div>
+		<select id="heroList">
+			<option disabled selected>Choose your hero</option>
+		</select>
+	</div>
+	
+	<div id="battleContainer" class="function" style="display:none;">
+		<div id="heroHP" class="label" style="position: absolute; width: 190px; text-align:center; top: 40px; left: 100px; font-size:18pt;"></div>
+		<img id="battleHeroContainer" style="width: 190px;  position: absolute; top: 80px; left: 100px;"></img>
+		
+		<div id="mobHP" class="label" style="position: absolute; width: 190px; text-align:center; top: 40px; right: 100px; font-size:18pt;"></div>
+		<img id="battleMobContainer" style="width: 190px; position: absolute; top: 80px; right: 100px;"></img>		
+	
+		<div style="width: 500px;  position: absolute; bottom: 20px; left: 100px;">
+			<div id="btnNextRound" class="button">Next Round</div>
+			<select id="attackType">
+				<option value="melee">Melee</option>
+				<option value="healing I">Healing I</option>
+				<option value="weakness I">Weakness I</option>
+				<option value="strength I">Strength I</option>
+			</select>
+			</div>
+		</div>
+	
+	<canvas id="canvasLayer1" style="display: none"></canvas>
+	<canvas id="canvasLayer2" style="display: none"></canvas>
 </div>
 
 <!--
@@ -39,12 +69,7 @@
 	<label>Hero name:</label><input id="newHeroName" type="text" value="Krom"/>
 </div>
 
-<div class="function">
-	<div id="btnChooseHero" class="button">Choose Hero</div>
-	<select id="heroList">
-		<option disabled selected>Choose your hero</option>
-	</select>
-</div>
+
 
 <div class="function">
 	<div id="btnMove" class="button">Move</div>
@@ -65,21 +90,13 @@
 	<div id="btnTrain" class="button" style="margin-left: 2px;">Train</div>
 </div>
 
-<div class="function">
-	<div id="btnNextRound" class="button">Next Round</div>
-	<select id="attackType">
-		<option value="melee">Melee</option>
-		<option value="healing I">Healing I</option>
-		<option value="weakness I">Weakness I</option>
-		<option value="strength I">Strength I</option>
-	</select>
-</div>
+
 -->
 
 
 <div id="images" style="display: none;">
-	<img id="forest" src="./resources/images/forest.png" >
-	<img id="mountains" src="./resources/images/mountains-brown.png">
+	<img id="woods" src="./resources/images/woods.png" >
+	<img id="mountains" src="./resources/images/mountains.png">
 	<img id="road" src="./resources/images/road.png">
 	<img id="town" src="./resources/images/town.png">
 	<img id="heroMapIcon" src="./resources/images/viking.png">
