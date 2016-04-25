@@ -2,6 +2,13 @@
 <!-- Komodo Project File - DO NOT EDIT -->
 <project id="b3c51428-2658-4985-a459-631a49f15834" kpf_version="5" name="MidgaardGui.komodoproject">
 <preference-set idref="b3c51428-2658-4985-a459-631a49f15834" id="project" preftype="project">
+  <string relative="path" id="import_dirname"></string>
+  <long id="indentWidth">2</long>
+  <string relative="path" id="javascriptExtraPaths"></string>
+  <string id="last_local_directory">None</string>
+  <string id="last_remote_directory">None</string>
   <long id="prefs_version">1</long>
+  <long id="tabWidth">2</long>
+  <boolean id="useTabs">1</boolean>
 </preference-set>
 </project>

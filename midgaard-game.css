@@ -110,10 +110,10 @@ select {
 #canvasLayer1 {
 	width: 1200px; height: 800px;
 	border: solid 1px;
-	position: absolute; top:0px; left: 0px; z-index: 0;
+	position: absolute; top:0px; left: 0px; z-index: 3;
 }
 
 #canvasLayer2 {
 	width: 1200px; height: 800px;
-	position: absolute; top:0px; left: 0px; z-index: 1;
+	position: absolute; top:0px; left: 0px; z-index: 4;
 }

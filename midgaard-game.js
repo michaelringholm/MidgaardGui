@@ -405,6 +405,18 @@ function moveHero(keyCode) {
 		logInfo("Invalid move direction!");
 };  
 
+function getMobImgSrc(mob) {
+	var imgSrc = null;
+	imgSrc = "./resources/images/mobs/" + mob.key + ".png";
+	
+	if (!imgSrc) {
+		logInfo("No image found for mob [" + mob.key + "]!");
+		return "./resources/images/mobs/wild-boar.png";
+	}
+		
+	return imgSrc;		
+}
+
 function battleAnimation1(targetHPDiv, targetCardDiv, damageImpact, finalHP) { 
 	var audio = new Audio('./resources/sounds/sword-attack.wav');
 	//var orgLeftPos = $(targetHPDiv).css("left");
@@ -426,35 +438,51 @@ function drawBattleScreen(battle) {
 	
 	$("#battleContainer").show()
 
-	$("#container").css("background-image", "url('./resources/images/battle-background.jpg')"); 
-	$("#battleMobContainer").attr("src", $("#wildBoar").attr("src"));
+	$("#container").css("background-image", "url('./resources/images/battle-background.jpg')"); 	
 	$("#battleHeroContainer").attr("src", $("#warriorHero").attr("src"));
+		
+	var imgSrc = getMobImgSrc(battle.mob);
+	$("#battleMobContainer").attr("src", imgSrc);
 	
-	//if(battle.mob.key == "orc")
-		//mobImg = document.getElementById("orc");
+	$("#heroName").html(battle.hero.name);
+	$("#mobName").html(battle.mob.name);
+	if (battle.mob.name.length > 8)
+		$("#mobName").css("font-size", "10px");
+	else
+		$("#mobName").css("font-size", "16px");
 		
-	if(battle.hero.hp <= 0)
-		$("#battleMobContainer").attr("src", $("#dead").attr("src"));
-	if(battle.mob.hp <= 0)
-		$("#battleHeroContainer").attr("src", $("#dead").attr("src"));
-		
-	if(battle.round*1 > 0) {
-		$("#heroHP").html((battle.hero.hp*1+battle.mob.damageImpact*1) + " HP");
-		$("#mobHP").html((battle.mob.hp*1+battle.hero.damageImpact*1) + " HP");
-		
-		if(battle.hero.damageImpact > 0) {
-			battleAnimation1("#mobHP", "#battleMobContainer", battle.hero.damageImpact*1, battle.mob.hp*1);
+					
+	if (battle.status.over) {
+		if(battle.status.winner == battle.hero.name) {
+			$("#battleMobContainer").attr("src", $("#dead").attr("src"));
+			$("#heroHP").html(battle.hero.hp + " HP");
+			$("#mobHP").html(0 + " HP");
 		}
-
-		setTimeout(function() {
-			if(battle.mob.damageImpact > 0) {
-				battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1);
-			}
-		},4500);
+		else {
+			$("#battleHeroContainer").attr("src", $("#dead").attr("src"));
+			$("#heroHP").html(battle.hero.hp + " HP");
+			$("#mobHP").html(0 + " HP");
+		}
 	}
 	else {
-		$("#heroHP").html(battle.hero.hp + " HP");
-		$("#mobHP").html(battle.mob.hp + " HP");
+		if(battle.round*1 > 0) {
+			$("#heroHP").html((battle.hero.hp*1+battle.mob.damageImpact*1) + " HP");
+			$("#mobHP").html((battle.mob.hp*1+battle.hero.damageImpact*1) + " HP");
+			
+			if(battle.hero.damageImpact > 0) {
+				battleAnimation1("#mobHP", "#battleMobContainer", battle.hero.damageImpact*1, battle.mob.hp*1);
+			}
+	
+			setTimeout(function() {
+				if(battle.mob.damageImpact > 0) {
+					battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1);
+				}
+			},4500);
+		}
+		else {
+			$("#heroHP").html(battle.hero.hp + " HP");
+			$("#mobHP").html(battle.mob.hp + " HP");
+		}
 	}
 	
 	$("#battleToolbar").show();
@@ -510,10 +538,14 @@ function drawMeadhall(town) {
 
 function drawTreasureScreen(battle) {
 	logInfo("showing treasure screen!");
+	$(".function").hide();	
+	$(canvasLayer2).hide();
+	$(canvasLayer1).show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
+	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
+	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	//var townImg = document.getElementById("town");		
 	//ctx1.drawImage(townImg,50,50,120,190);
@@ -532,17 +564,21 @@ function drawTreasureScreen(battle) {
 }
 
 function drawDeathScreen(hero) {
-	logInfo("showing death screen!");
+	logInfo("showing death screen!");	
+	$(".function").hide();	
+	$(canvasLayer2).hide();
+	$(canvasLayer1).show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
+	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
+	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/valkyrie.jpg')");
 	
 	ctx1.font = "28px Calibri";
 	ctx1.fillStyle = '#E4CA64';
-  ctx1.fillText("You died and lost XP and stamina!",20,240);
+	ctx1.fillText("You died and lost XP and stamina!",20,240);
 	ctx1.fillText("You are summoned by a Valkyrie to your home town!",20,270);
 }
 
