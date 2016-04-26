@@ -9,6 +9,7 @@ body {
 
 * {
   font-family: midgaardFont;
+	text-transform: uppercase;
   font-size: 9pt;
 }
 
@@ -83,6 +84,17 @@ select {
 .strikedText {  
   text-decoration: line-through;
   color: red;
+}
+
+.tableRow {
+	height: 30px;
+	background-color: grey;
+	cursor: pointer;
+}
+
+.tableCell {
+	width: 200px;
+	display: inline-block;
 }
 
 #loginContainer {

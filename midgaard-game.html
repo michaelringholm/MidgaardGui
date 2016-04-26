@@ -44,8 +44,24 @@
 				<option value="weakness I">Weakness I</option>
 				<option value="strength I">Strength I</option>
 			</select>
-			</div>
 		</div>
+	</div>
+	
+	<div id="mapBottomToolbar" class="function" style="display:none; z-index: 5;">
+		<div id="btnEnterTown" class="button" style="margin-left: 40px;">Enter town</div>
+	</div>
+	
+	<div id="townBottomToolbar" class="function" style="display:none; z-index: 5; top: auto; right: auto; bottom: 6px; left: 10px; width: 660px; height: 40px; margin: 0px;">
+		<div id="btnVisitMeadhall" class="button" style="margin-left: 4px;">Visit meadhall</div>
+		<div id="btnVisitSmithy" class="button" style="margin-left: 2px;">Visit smithy</div>	
+		<div id="btnViewCharacter" class="button" style="margin-left: 2px;">View character</div>
+		<div id="btnTrain" class="button" style="margin-left: 2px;">Train</div>
+		<div id="btnLeaveTown" class="button" style="margin-left: 2px;">Leave town</div>
+	</div>
+	
+	<div id="meadhallTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
+	
+	<div id="smithyOverlay" class="function" style="display:none; width: 860px; height: 468px; font-size: 20px;"></div>
 	
 	<canvas id="canvasLayer1" style="display: none"></canvas>
 	<canvas id="canvasLayer2" style="display: none"></canvas>
@@ -83,13 +99,6 @@
 	</select>
 	<div id="btnEnterTown" class="button" style="margin-left: 40px;">Enter town</div>
 	<div id="btnLeaveTown" class="button" style="margin-left: 2px;">Leave town</div>
-</div>
-
-<div class="function">
-	<div id="btnVisitMeadhall" class="button" style="margin-left: 40px;">Visit meadhall</div>
-	<div id="btnVisitSmithy" class="button" style="margin-left: 40px;">Visit smithy</div>	
-	<div id="btnViewCharacter" class="button" style="margin-left: 2px;">View character</div>
-	<div id="btnTrain" class="button" style="margin-left: 2px;">Train</div>
 </div>
 
 

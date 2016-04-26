@@ -326,6 +326,8 @@ function drawMap(data) {
 	$(".function").hide();
 	$(canvasLayer1).show();
 	$(canvasLayer2).show();
+	$("#mapBottomToolbar").show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
 	var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
@@ -507,6 +509,8 @@ function drawTown(town) {
 	$(".function").hide();
 	$(canvasLayer1).show();
 	$(canvasLayer2).show();
+	$("#townBottomToolbar").show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
 	var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
@@ -523,17 +527,17 @@ function drawTown(town) {
 }
 
 function drawMeadhall(town) {
-	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
-	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#meadhallTextOverlay").show();
+	$("#townBottomToolbar").show();
 	
 	$("#container").css("background-image", "url('./resources/images/meadhall-background.jpg')"); 
 	
-	ctx1.font = "24px Calibri";
-	ctx1.fillStyle = '#AC6716';
-  ctx1.fillText("You feel rested, and both body and mind feels renewed!",20,30);
-	ctx1.fillText("Your happily pay the head brewer what you owe him!",20,50);
+	
+	$("#meadhallTextOverlay").html("You feel rested, and both body and mind feels renewed!<br/>");
+	$("#meadhallTextOverlay").append("Your happily pay the head brewer what you owe him!");
 }
 
 function drawTreasureScreen(battle) {
@@ -607,32 +611,33 @@ function drawTraining(hero, trainingOutcome, town) {
 }
 
 function drawSmithy(smithy) {
-	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
-	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
-		
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#smithyOverlay").show();
+	$("#townBottomToolbar").show();
+	
 	$("#container").css("background-image", "url('./resources/images/smithy-background.jpg')"); 
-	//var smithImg = document.getElementById("smith");	
-	//ctx1.drawImage(smithImg,50,50,120,190);
 	
-	ctx1.font = "22px Calibri";
-	ctx1.fillStyle = '#F9D526';
-	ctx1.fillText("Welcome to my smithy!",20,30);
 	
-	ctx1.font = "16px Calibri";
-  ctx1.fillText("The smith has around " + smithy.copper + " copper pieces!",20,50);
-	ctx1.fillText("He has the following items for sale:",20,90);
+	//ctx1.fillStyle = '#F9D526';
+	$("#smithyOverlay").html("Welcome to my smithy!<br/>");
 	
-	ctx1.font = "14px Calibri";
-	ctx1.fillText("Item:",20,90+(((1*1)+1)*20));
-	ctx1.fillText("Cost:",170,90+(((1*1)+1)*20));
-	ctx1.fillText("Attributes:",260,90+(((1*1)+1)*20));
+	//ctx1.font = "16px Calibri";
+  $("#smithyOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
+	$("#smithyOverlay").append("He has the following items for sale:<br/>");
+	
+	//ctx1.font = "14px Calibri";
+	$("#smithyOverlay").append('<div class="tableCell">Item:</div>');
+	$("#smithyOverlay").append('<div class="tableCell">Cost:</div>');
+	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');
 		
 	for(var itemIndex in smithy.items) {
-		ctx1.fillText("- " + smithy.items[itemIndex].name,20,140+(((itemIndex*1)+1)*20));
-		ctx1.fillText(smithy.items[itemIndex].cost + " cp",170,140+(((itemIndex*1)+1)*20));
-		ctx1.fillText(smithy.items[itemIndex].atkMin + "-" + smithy.items[itemIndex].atkMax,260,140+(((itemIndex*1)+1)*20));
+		$("#smithyOverlay").append('<div class="tableRow">');
+		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
+		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
+		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');
+		$("#smithyOverlay").append('</div>');
 	}
 };
 
