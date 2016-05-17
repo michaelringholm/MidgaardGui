@@ -21,6 +21,8 @@ $(function() {
 	canvasLayer2.width = canvasWidth;
 	canvasLayer2.height = canvasHeight;
 		
+	$("#btnShowCreateLogin").click(function() {drawCreateLoginScreen();});
+	
 	$("#btnCreateLogin").click(function() {createLogin();});
 	$("#btnCreateHero").click(function() { createHero(); });
 	$("#btnLogin").click(function() {login();});
@@ -35,15 +37,11 @@ $(function() {
 	$("#btnTrain").click(function() {train();});
 	$("#btnVisitSmithy").click(function() {visitSmithy();});
 	$("#btnViewCharacter").click(function() {viewCharacter();});
+	
+	$("#btnExitDeathScreen").click(function() {nextRound();});
+	$("#btnExitTreasureScreen").click(function() {nextRound();});
   
 	$("#gSessionId").html("gSessionId: N/A");
-	
-	$("#container").keypress(function(e) { 
-			if(e.which == 100 || e.which == 97 || e.which == 115 || e.which == 119) {
-				e.preventDefault();
-				moveHero(e.which);
-			}
-	});
 });
 
 function viewCharacter() {
@@ -167,6 +165,7 @@ function leaveTownFailed(errorMsg) {
 }
 
 function nextRound() {
+	$("#battleButtonBar").hide();
 	gameSession.attackType = $("#attackType").val();	
 	callMethod("http://" + hostIp + ":" + hostPort, "nextRound", gameSession, nextRoundSuccess, nextRoundFailed);
 }
@@ -288,10 +287,13 @@ function createLogin() {
 function createLoginSuccess(data) {
 	logInfo("create login OK!");
 	logInfo(JSON.stringify(data));
+	$("#statusMessage").html("");
+	drawLoginScreen();
 }
 
 function createLoginFailed(errorMsg) {
 	logInfo(errorMsg);
+	$("#statusMessage").html(errorMsg.reason);
 }
 
 function login() {
@@ -327,6 +329,13 @@ function drawMap(data) {
 	$(canvasLayer1).show();
 	$(canvasLayer2).show();
 	$("#mapBottomToolbar").show();
+	
+	$("#container").keypress(function(e) { 
+		if(e.which == 100 || e.which == 97 || e.which == 115 || e.which == 119) {
+			e.preventDefault();
+			moveHero(e.which);
+		}
+	});
 	
 	var ctx1 = canvasLayer1.getContext("2d");
 	var ctx2 = canvasLayer2.getContext("2d");
@@ -419,7 +428,7 @@ function getMobImgSrc(mob) {
 	return imgSrc;		
 }
 
-function battleAnimation1(targetHPDiv, targetCardDiv, damageImpact, finalHP) { 
+function battleAnimation1(targetHPDiv, targetCardDiv, damageImpact, finalHP, fnCallback) { 
 	var audio = new Audio('./resources/sounds/sword-attack.wav');
 	//var orgLeftPos = $(targetHPDiv).css("left");
 	//$(targetHPDiv).css("left", orgLeftPos-40);
@@ -430,13 +439,14 @@ function battleAnimation1(targetHPDiv, targetCardDiv, damageImpact, finalHP) {
 		.switchClass("strikedText", "plainText", 1000)
 		.effect("pulsate", function() { $(targetHPDiv).html(damageImpact + ' damage!').fadeIn(100);  audio.play(); }, 2500)
 		.effect("pulsate", function() { $(targetHPDiv).html(finalHP + ' HP').fadeIn(100);}, 1500)
-		.fadeIn(100, function() { $(targetCardDiv).effect("shake", 800);});
+		.fadeIn(100, function() { $(targetCardDiv).effect("shake", 800); fnCallback(); });
 };
 
 function drawBattleScreen(battle) {
 	$(".function").hide();
 	$(canvasLayer1).hide();
 	$(canvasLayer2).hide();
+	$("#battleButtonBar").hide();
 	
 	$("#battleContainer").show()
 
@@ -472,29 +482,37 @@ function drawBattleScreen(battle) {
 			$("#mobHP").html((battle.mob.hp*1+battle.hero.damageImpact*1) + " HP");
 			
 			if(battle.hero.damageImpact > 0) {
-				battleAnimation1("#mobHP", "#battleMobContainer", battle.hero.damageImpact*1, battle.mob.hp*1);
+				battleAnimation1("#mobHP", "#battleMobContainer", battle.hero.damageImpact*1, battle.mob.hp*1, function() {
+					if(battle.mob.damageImpact > 0) {
+						battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1, function() {
+							$("#battleButtonBar").show();
+						});
+					}
+				});
 			}
-	
-			setTimeout(function() {
-				if(battle.mob.damageImpact > 0) {
-					battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1);
-				}
-			},4500);
+			else if(battle.mob.damageImpact > 0) {
+				battleAnimation1("#heroHP", "#battleHeroContainer", battle.mob.damageImpact*1, battle.hero.hp*1, function() {
+					$("#battleButtonBar").show();
+				});
+			}
+			else
+				$("#battleButtonBar").show();
 		}
 		else {
 			$("#heroHP").html(battle.hero.hp + " HP");
 			$("#mobHP").html(battle.mob.hp + " HP");
 		}
-	}
-	
-	$("#battleToolbar").show();
+	}	
 }
 
 function drawCharacterSheet(hero) {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).show();
+	$("#townBottomToolbar").show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
 	
@@ -526,6 +544,33 @@ function drawTown(town) {
   ctx1.fillText(town.name,50,30);
 }
 
+function drawLoginScreen() {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#loginContainer").show();
+	
+	$("#container").css("background-image", "url('./resources/images/login-background.jpg')"); 
+}
+
+function drawCreateLoginScreen() {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#createLoginContainer").show();
+	
+	$("#container").css("background-image", "url('./resources/images/login-background.jpg')"); 
+}
+
+function drawCreateHeroScreen() {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#createHeroContainer").show();
+	
+	$("#container").css("background-image", "url('./resources/images/login-background.jpg')"); 
+}
+
 function drawMeadhall(town) {
 	$(".function").hide();
 	$(canvasLayer2).hide();
@@ -545,14 +590,10 @@ function drawTreasureScreen(battle) {
 	$(".function").hide();	
 	$(canvasLayer2).hide();
 	$(canvasLayer1).show();
+	$("#treasureScreenButtonBar").show();	
 	
 	var ctx1 = canvasLayer1.getContext("2d");
-	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
-	
-	//var townImg = document.getElementById("town");		
-	//ctx1.drawImage(townImg,50,50,120,190);
 	
 	$("#container").css("background-image", "url('./resources/images/loot.jpg')");
 	
@@ -572,11 +613,10 @@ function drawDeathScreen(hero) {
 	$(".function").hide();	
 	$(canvasLayer2).hide();
 	$(canvasLayer1).show();
+	$("#deathScreenButtonBar").show();
 	
 	var ctx1 = canvasLayer1.getContext("2d");
-	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/valkyrie.jpg')");
 	
@@ -588,10 +628,15 @@ function drawDeathScreen(hero) {
 
 function drawTraining(hero, trainingOutcome, town) {
 	logInfo("showing training screen!");
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).show();
+	$("#townBottomToolbar").show();
+	
 	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
+	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
+	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/training-background.jpg')"); 
 	
@@ -633,11 +678,10 @@ function drawSmithy(smithy) {
 	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');
 		
 	for(var itemIndex in smithy.items) {
-		$("#smithyOverlay").append('<div class="tableRow">');
-		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
-		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
-		$("#smithyOverlay").append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');
-		$("#smithyOverlay").append('</div>');
+		var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
+		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
+		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
+		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');
 	}
 };
 

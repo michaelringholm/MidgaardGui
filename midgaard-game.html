@@ -20,11 +20,30 @@
 		</div>
 	</div>
 	
+	<div id="createLoginContainer" class="function" style="display: none;">
+		<div style="margin-top: 10px;; margin-left: 10px;">
+			<div style="margin: 4px;"><div class="label" style="width: 220px;">New login:</div><input id="newLogin" type="text" value="some login"/></div>
+			<div style="margin: 4px;"><div class="label" style="width: 220px;">New Password:</div><input id="newPassword" type="password" value="MyPassword" /></div>
+			<div style="margin: 4px;"><div class="label" style="width: 220px;">Repeated Password:</div><input id="newRepeatedPassword" type="password" value="MyPassword" /></div>
+
+			<div id="btnCreateLogin" class="button">Create Login</div><div id="statusMessage" class="label"></div>
+		</div>			
+	</div>
+	
 	<div id="chooseHeroContainer" class="function" style="display:none;">
-		<div id="btnChooseHero" class="button">Choose Hero</div>
-		<select id="heroList">
-			<option disabled selected>Choose your hero</option>
-		</select>
+		<div style="margin-top: 10px;; margin-left: 10px;">
+			<div id="btnChooseHero" class="button">Choose Hero</div>
+			<select id="heroList">
+				<option disabled selected>Choose your hero</option>
+			</select>
+			
+			<div style="margin-top: 12px; margin-bottom: 12px; margin-left: 84px; font-style: italic;">or crete a new hero</div>
+			
+			<div style="margin-top: 10px;">
+				<div class="label">Hero name:</div><input id="newHeroName" value="Krom"/>
+				<div id="btnCreateHero" class="button">Create Hero</div>
+			</div>
+		</div>
 	</div>
 	
 	<div id="battleContainer" class="function" style="display:none;">
@@ -36,7 +55,7 @@
 		<div id="mobName" class="label" style="position: absolute; width: 110px; text-align:center; top: 100px; left: 780px; font-size:12pt; z-index: 3; color:#570403;"></div>
 		<img id="battleMobContainer" style="width: 190px; position: absolute; top: 80px; right: 100px;"></img>		
 	
-		<div style="width: 500px;  position: absolute; bottom: 20px; left: 100px;">
+		<div id="battleButtonBar" style="width: 500px;  position: absolute; bottom: 20px; left: 100px;">
 			<div id="btnNextRound" class="button">Next Round</div>
 			<select id="attackType">
 				<option value="melee">Melee</option>
@@ -59,6 +78,14 @@
 		<div id="btnLeaveTown" class="button" style="margin-left: 2px;">Leave town</div>
 	</div>
 	
+	<div id="deathScreenButtonBar" class="function" style="display:none; z-index: 5; top: auto; right: auto; bottom: 6px; left: 10px; width: 660px; height: 40px; margin: 0px;">
+		<div id="btnExitDeathScreen" class="button" style="margin-left: 4px;">Continue</div>
+	</div>
+	
+	<div id="treasureScreenButtonBar" class="function" style="display:none; z-index: 5; top: auto; right: auto; bottom: 6px; left: 10px; width: 660px; height: 40px; margin: 0px;">
+		<div id="btnExitTreasureScreen" class="button" style="margin-left: 4px;">Continue</div>
+	</div>
+	
 	<div id="meadhallTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
 	
 	<div id="smithyOverlay" class="function" style="display:none; width: 860px; height: 468px; font-size: 20px;"></div>
@@ -72,20 +99,6 @@
 <div id="login"></div>
 <div id="he"></div>
 <div id="status"></div>
-
-<div class="function">
-	<div id="btnCreateLogin" class="button">Create Login</div>
-	<label>newLogin:</label><input id="newLogin" type="text" value="MyLogin"/>
-	<label>newPassword:</label><input id="newPassword" type="password" value="MyPassword"/>
-	<label>newRepeatedPassword:</label><input id="newRepeatedPassword" type="password" value="MyPassword" />
-</div>
-
-
-
-<div class="function">
-	<div id="btnCreateHero" class="button">Create Hero</div>
-	<label>Hero name:</label><input id="newHeroName" type="text" value="Krom"/>
-</div>
 
 
 
