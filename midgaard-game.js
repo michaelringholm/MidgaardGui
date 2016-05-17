@@ -30,6 +30,7 @@ $(function() {
 	$("#btnNextRound").click(function() {nextRound();});
 	$("#btnEnterTown").click(function() {enterTown();});
 	$("#btnLeaveTown").click(function() {leaveTown();});
+	$("#btnExitDeathScreen").click(function() {enterTown();});	
 	
 	$("#btnVisitMeadhall").click(function() {visitMeadhall();});
 	$("#btnTrain").click(function() {train();});
@@ -439,6 +440,7 @@ function drawBattleScreen(battle) {
 	$(canvasLayer2).hide();
 	
 	$("#battleContainer").show()
+	$("#battleBottomToolbar").show();
 
 	$("#container").css("background-image", "url('./resources/images/battle-background.jpg')"); 	
 	$("#battleHeroContainer").attr("src", $("#warriorHero").attr("src"));
@@ -491,18 +493,19 @@ function drawBattleScreen(battle) {
 }
 
 function drawCharacterSheet(hero) {
+	$(".function").hide();
+	$(canvasLayer2).hide();
 	var ctx1 = canvasLayer1.getContext("2d");
-	var ctx2 = canvasLayer2.getContext("2d");
+	$("#townBottomToolbar").show();
+	
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
 	
-	ctx1.font = "16px Calibri";
-	ctx1.fillStyle = '#AC6716';
-  ctx1.fillText("Str ",20,30);
-	ctx1.fillText("HP",20,50);
-	ctx1.fillText("HP",20,70);
+	ctx1.font = "20px midgaardFont";
+	ctx1.fillStyle = '#e1b91a';
+	ctx1.fillText("HP:" + hero.hp,240,150);
+	ctx1.fillText("MANA:" + hero.mana,240,180);
 }
 
 function drawTown(town) {
@@ -533,8 +536,7 @@ function drawMeadhall(town) {
 	$("#meadhallTextOverlay").show();
 	$("#townBottomToolbar").show();
 	
-	$("#container").css("background-image", "url('./resources/images/meadhall-background.jpg')"); 
-	
+	$("#container").css("background-image", "url('./resources/images/meadhall-background.jpg')"); 	
 	
 	$("#meadhallTextOverlay").html("You feel rested, and both body and mind feels renewed!<br/>");
 	$("#meadhallTextOverlay").append("Your happily pay the head brewer what you owe him!");
@@ -572,18 +574,16 @@ function drawDeathScreen(hero) {
 	$(".function").hide();	
 	$(canvasLayer2).hide();
 	$(canvasLayer1).show();
+	$("#deathScreenTextOverlay").show();
+	$("#deathScreenBottomToolbar").show();		
 	
 	var ctx1 = canvasLayer1.getContext("2d");
-	//var ctx2 = canvasLayer2.getContext("2d");
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	//ctx2.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/valkyrie.jpg')");
 	
-	ctx1.font = "28px Calibri";
-	ctx1.fillStyle = '#E4CA64';
-	ctx1.fillText("You died and lost XP and stamina!",20,240);
-	ctx1.fillText("You are summoned by a Valkyrie to your home town!",20,270);
+	$("#deathScreenTextOverlay").html("You died and lost XP and stamina!<br/>");
+	$("#deathScreenTextOverlay").append("You soul will be summoned by a Valkyrie to your home town if you accept your fate!");
 }
 
 function drawTraining(hero, trainingOutcome, town) {

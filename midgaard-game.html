@@ -35,33 +35,37 @@
 		<div id="mobHP" class="label" style="position: absolute; width: 190px; text-align:center; top: 40px; right: 100px; font-size:18pt;"></div>
 		<div id="mobName" class="label" style="position: absolute; width: 110px; text-align:center; top: 100px; left: 780px; font-size:12pt; z-index: 3; color:#570403;"></div>
 		<img id="battleMobContainer" style="width: 190px; position: absolute; top: 80px; right: 100px;"></img>		
-	
-		<div style="width: 500px;  position: absolute; bottom: 20px; left: 100px;">
-			<div id="btnNextRound" class="button">Next Round</div>
-			<select id="attackType">
-				<option value="melee">Melee</option>
-				<option value="healing I">Healing I</option>
-				<option value="weakness I">Weakness I</option>
-				<option value="strength I">Strength I</option>
-			</select>
-		</div>
 	</div>
 	
-	<div id="mapBottomToolbar" class="function" style="display:none; z-index: 5;">
-		<div id="btnEnterTown" class="button" style="margin-left: 40px;">Enter town</div>
+	<div id="battleBottomToolbar" class="function bottomToolbar">
+		<div id="btnNextRound" class="button" style="margin-left: 4px;">Next Round</div>
+		<select id="attackType">
+			<option value="melee">Melee</option>
+			<option value="healing I">Healing I</option>
+			<option value="weakness I">Weakness I</option>
+			<option value="strength I">Strength I</option>
+		</select>		
 	</div>
 	
-	<div id="townBottomToolbar" class="function" style="display:none; z-index: 5; top: auto; right: auto; bottom: 6px; left: 10px; width: 660px; height: 40px; margin: 0px;">
+	<div id="mapBottomToolbar" class="function bottomToolbar">
+		<div id="btnEnterTown" class="button" style="margin-left: 4px;">Enter town</div>
+	</div>
+	
+	<div id="townBottomToolbar" class="function bottomToolbar">
 		<div id="btnVisitMeadhall" class="button" style="margin-left: 4px;">Visit meadhall</div>
 		<div id="btnVisitSmithy" class="button" style="margin-left: 2px;">Visit smithy</div>	
 		<div id="btnViewCharacter" class="button" style="margin-left: 2px;">View character</div>
 		<div id="btnTrain" class="button" style="margin-left: 2px;">Train</div>
 		<div id="btnLeaveTown" class="button" style="margin-left: 2px;">Leave town</div>
 	</div>
+
+	<div id="deathScreenBottomToolbar" class="function bottomToolbar">
+		<div id="btnExitDeathScreen" class="button" style="margin-left: 4px;">Accept fate</div>
+	</div>
 	
 	<div id="meadhallTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
-	
 	<div id="smithyOverlay" class="function" style="display:none; width: 860px; height: 468px; font-size: 20px;"></div>
+	<div id="deathScreenTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
 	
 	<canvas id="canvasLayer1" style="display: none"></canvas>
 	<canvas id="canvasLayer2" style="display: none"></canvas>
