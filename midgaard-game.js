@@ -363,7 +363,9 @@ function drawMapTile(canvas, xPos, yPos, terrainType) {
 	else if(terrainType == "t")
 		img = document.getElementById("town");
 	else if(terrainType == "r")
-		img = document.getElementById("road");	
+		img = document.getElementById("road");
+	else if(terrainType == "c")
+		img = document.getElementById("cave");
 
 	if(!img)
 		logInfo("The image for terrainType [" + terrainType + "] was not found!");
@@ -502,10 +504,22 @@ function drawCharacterSheet(hero) {
 	
 	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
 	
-	ctx1.font = "20px midgaardFont";
+	ctx1.font = "18px midgaardFont";
 	ctx1.fillStyle = '#e1b91a';
-	ctx1.fillText("HP:" + hero.hp,240,150);
-	ctx1.fillText("MANA:" + hero.mana,240,180);
+	
+	ctx1.fillText("LEVEL:" + hero.level,540,100);
+	
+	ctx1.fillText("HP:" + hero.hp + " (" + hero.baseHp + ")",340,200);
+	ctx1.fillText("MANA:" + hero.mana + " (" + hero.baseMana + ")",340,230);
+	ctx1.fillText("AC:" + hero.ac + " (" + hero.baseAc + ")",340,260);
+	ctx1.fillText("XP:" + hero.xp,340,290);
+	ctx1.fillText("COPPER:" + hero.copper,340,320);
+	
+	ctx1.fillText("STRENGTH:" + hero.str,740,200);
+	ctx1.fillText("STAMINA:" + hero.sta,740,230);
+	ctx1.fillText("INTELLIGENCE:" + hero.int,740,260);
+	ctx1.fillText("REGEN:" + hero.regen,740,290);
+	ctx1.fillText("LUCK:" + hero.luck,740,320);	
 }
 
 function drawTown(town) {
