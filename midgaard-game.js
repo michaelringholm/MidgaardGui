@@ -512,16 +512,11 @@ function drawBattleScreen(battle) {
 function drawCharacterSheet(hero) {
 	$(".function").hide();
 	$(canvasLayer2).hide();
-<<<<<<< HEAD
 	$(canvasLayer1).show();
 	$("#townBottomToolbar").show();
 	
 	var ctx1 = canvasLayer1.getContext("2d");
-=======
-	var ctx1 = canvasLayer1.getContext("2d");
-	$("#townBottomToolbar").show();
 	
->>>>>>> origin/master
 	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
@@ -632,16 +627,10 @@ function drawDeathScreen(hero) {
 	logInfo("showing death screen!");	
 	$(".function").hide();	
 	$(canvasLayer2).hide();
-	$(canvasLayer1).show();
-<<<<<<< HEAD
-	$("#deathScreenButtonBar").show();
-=======
+	$(canvasLayer1).hide();
+
 	$("#deathScreenTextOverlay").show();
 	$("#deathScreenBottomToolbar").show();		
->>>>>>> origin/master
-	
-	var ctx1 = canvasLayer1.getContext("2d");
-	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
 	
 	$("#container").css("background-image", "url('./resources/images/valkyrie.jpg')");
 	
