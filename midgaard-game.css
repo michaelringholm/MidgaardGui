@@ -77,6 +77,10 @@ select {
 	right: 0;
 }
 
+.smithyItemContainer {
+    position: absolute; width: 80px; height: 80px; border: solid 3px #733B03; background-color: rgba(30,30,30,0.7); border-radius: 4px;
+}
+
 .bottomToolbar {
     display:none; z-index: 5; top: auto; right: auto; bottom: 6px; left: 0px; width: 98%; height: 40px;
     margin-right: 1%; margin-left: 1%;

@@ -691,10 +691,15 @@ function drawSmithy(smithy) {
 	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');*/
 		
 	for(var itemIndex in smithy.items) {
+		$(".smithyItemContainer:eq(" + itemIndex + ")").html(smithy.items[itemIndex].name);
 		/*var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');*/
+		
+		if (itemIndex > 5) {
+            break;
+        }
 	}
 };
 
