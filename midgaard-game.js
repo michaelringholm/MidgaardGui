@@ -672,6 +672,7 @@ function drawSmithy(smithy) {
 	$(canvasLayer2).hide();
 	$(canvasLayer1).hide();
 	$("#smithyOverlay").show();
+	$("#smithyInventory").show();
 	$("#townBottomToolbar").show();
 	
 	$("#container").css("background-image", "url('./resources/images/smithy-background.jpg')"); 
@@ -681,19 +682,19 @@ function drawSmithy(smithy) {
 	$("#smithyOverlay").html("Welcome to my smithy!<br/>");
 	
 	//ctx1.font = "16px Calibri";
-  $("#smithyOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
-	$("#smithyOverlay").append("He has the following items for sale:<br/>");
+	$("#smithyOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
+	/*$("#smithyOverlay").append("He has the following items for sale:<br/>");
 	
 	//ctx1.font = "14px Calibri";
 	$("#smithyOverlay").append('<div class="tableCell">Item:</div>');
 	$("#smithyOverlay").append('<div class="tableCell">Cost:</div>');
-	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');
+	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');*/
 		
 	for(var itemIndex in smithy.items) {
-		var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
+		/*var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
-		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');
+		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');*/
 	}
 };
 
