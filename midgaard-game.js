@@ -691,7 +691,17 @@ function drawSmithy(smithy) {
 	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');*/
 		
 	for(var itemIndex in smithy.items) {
-		$(".smithyItemContainer:eq(" + itemIndex + ")").html(smithy.items[itemIndex].name);
+		var name = smithy.items[itemIndex].name;
+		var itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
+		
+		if(name == "long sword")
+			itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
+		else if(name == "wooden sword")
+			itemImgUrl = "./resources/images/org/items/the_axe_in_the_basement.png";
+		else if(name == "silver long sword")
+			itemImgUrl = "./resources/images/org/items/128px-Wooden_Shield.png";					
+		
+		$(".smithyItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
 		/*var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
