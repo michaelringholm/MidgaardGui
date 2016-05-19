@@ -707,6 +707,7 @@ function drawSmithy(smithy) {
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');*/
 		
+		// Maximum of 6 s
 		if (itemIndex > 5) {
             break;
         }
