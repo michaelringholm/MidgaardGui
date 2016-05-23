@@ -701,7 +701,7 @@ function drawSmithy(smithy) {
 		else if(name == "silver long sword")
 			itemImgUrl = "./resources/images/org/items/128px-Wooden_Shield.png";					
 		
-		$(".smithyItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
+		$(".itemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
 		/*var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
 		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
