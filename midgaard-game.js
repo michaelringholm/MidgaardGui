@@ -509,36 +509,6 @@ function drawBattleScreen(battle) {
 	}	
 }
 
-function drawCharacterSheet(hero) {
-	$(".function").hide();
-	$(canvasLayer2).hide();
-	$(canvasLayer1).show();
-	$("#townBottomToolbar").show();
-	
-	var ctx1 = canvasLayer1.getContext("2d");
-	
-	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
-	
-	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
-	
-	ctx1.font = "18px midgaardFont";
-	ctx1.fillStyle = '#e1b91a';
-	
-	ctx1.fillText("LEVEL:" + hero.level,540,100);
-	
-	ctx1.fillText("HP:" + hero.hp + " (" + hero.baseHp + ")",340,200);
-	ctx1.fillText("MANA:" + hero.mana + " (" + hero.baseMana + ")",340,230);
-	ctx1.fillText("AC:" + hero.ac + " (" + hero.baseAc + ")",340,260);
-	ctx1.fillText("XP:" + hero.xp,340,290);
-	ctx1.fillText("COPPER:" + hero.copper,340,320);
-	
-	ctx1.fillText("STRENGTH:" + hero.str,740,200);
-	ctx1.fillText("STAMINA:" + hero.sta,740,230);
-	ctx1.fillText("INTELLIGENCE:" + hero.int,740,260);
-	ctx1.fillText("REGEN:" + hero.regen,740,290);
-	ctx1.fillText("LUCK:" + hero.luck,740,320);	
-}
-
 function drawTown(town) {
 	$(".function").hide();
 	$(canvasLayer1).show();
@@ -676,36 +646,21 @@ function drawSmithy(smithy) {
 	$("#townBottomToolbar").show();
 	
 	$("#container").css("background-image", "url('./resources/images/smithy-background.jpg')"); 
-	
-	
-	//ctx1.fillStyle = '#F9D526';
-	$("#smithyOverlay").html("Welcome to my smithy!<br/>");
-	
-	//ctx1.font = "16px Calibri";
+	$("#smithyOverlay").html("Welcome to my smithy!<br/>");	
 	$("#smithyOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
-	/*$("#smithyOverlay").append("He has the following items for sale:<br/>");
-	
-	//ctx1.font = "14px Calibri";
-	$("#smithyOverlay").append('<div class="tableCell">Item:</div>');
-	$("#smithyOverlay").append('<div class="tableCell">Cost:</div>');
-	$("#smithyOverlay").append('<div class="tableCell">Attributes:</div><br/>');*/
 		
 	for(var itemIndex in smithy.items) {
 		var name = smithy.items[itemIndex].name;
 		var itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
 		
 		if(name == "long sword")
-			itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
+			itemImgUrl = "./resources/images/items/StoneHatchet_Icon.png";
 		else if(name == "wooden sword")
-			itemImgUrl = "./resources/images/org/items/the_axe_in_the_basement.png";
+			itemImgUrl = "./resources/images/items/the_axe_in_the_basement.png";
 		else if(name == "silver long sword")
-			itemImgUrl = "./resources/images/org/items/128px-Wooden_Shield.png";					
+			itemImgUrl = "./resources/images/items/128px-Wooden_Shield.png";					
 		
-		$(".itemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
-		/*var row = $("#smithyOverlay").append('<div class="tableRow"></div>');
-		row.append('<div class="tableCell">' + smithy.items[itemIndex].name + '</div>');
-		row.append('<div class="tableCell">' + smithy.items[itemIndex].cost + ' cp</div>');
-		row.append('<div class="tableCell">' + smithy.items[itemIndex].atkMin + '-' + smithy.items[itemIndex].atkMax + '</div>');*/
+		$(".smithyItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
 		
 		// Maximum of 6 s
 		if (itemIndex > 5) {
@@ -713,6 +668,74 @@ function drawSmithy(smithy) {
         }
 	}
 };
+
+function drawCharacterSheet(hero) {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).hide();
+	$("#characterScreenOverlay").show();
+	$("#characterScreen").show();
+	$("#townBottomToolbar").show();
+	
+	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 	
+	$("#characterScreenOverlay").html("This is the character screen!<br/>");
+	//$("#characterScreenOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
+		
+	for(var itemIndex in hero.items) {
+		var name = hero.items[itemIndex].name;
+		var itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
+		
+		if(name == "long sword")
+			itemImgUrl = "./resources/images/items/StoneHatchet_Icon.png";
+		else if(name == "wooden sword")
+			itemImgUrl = "./resources/images/items/the_axe_in_the_basement.png";
+		else if(name == "silver long sword")
+			itemImgUrl = "./resources/images/items/128px-Wooden_Shield.png";
+		else if(name == "rabbits foot")
+			itemImgUrl = "./resources/images/items/rabbits-foot.png";
+		else if(name == "deer skin")
+			itemImgUrl = "./resources/images/items/deer-skin.png";
+		else if(name == "beetle shell")
+			itemImgUrl = "./resources/images/items/beetle-shell.png";				
+		
+		$(".characterItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
+		
+		// Maximum of 6 items
+		if (itemIndex > 5) {
+            break;
+        }
+	}
+};
+
+function drawCharacterSheetOld(hero) {
+	$(".function").hide();
+	$(canvasLayer2).hide();
+	$(canvasLayer1).show();
+	$("#townBottomToolbar").show();
+	
+	var ctx1 = canvasLayer1.getContext("2d");
+	
+	ctx1.clearRect(0,0,canvasWidth,canvasHeight);
+	
+	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 
+	
+	ctx1.font = "18px midgaardFont";
+	ctx1.fillStyle = '#e1b91a';
+	
+	ctx1.fillText("LEVEL:" + hero.level,540,100);
+	
+	ctx1.fillText("HP:" + hero.hp + " (" + hero.baseHp + ")",340,200);
+	ctx1.fillText("MANA:" + hero.mana + " (" + hero.baseMana + ")",340,230);
+	ctx1.fillText("AC:" + hero.ac + " (" + hero.baseAc + ")",340,260);
+	ctx1.fillText("XP:" + hero.xp,340,290);
+	ctx1.fillText("COPPER:" + hero.copper,340,320);
+	
+	ctx1.fillText("STRENGTH:" + hero.str,740,200);
+	ctx1.fillText("STAMINA:" + hero.sta,740,230);
+	ctx1.fillText("INTELLIGENCE:" + hero.int,740,260);
+	ctx1.fillText("REGEN:" + hero.regen,740,290);
+	ctx1.fillText("LUCK:" + hero.luck,740,320);	
+}
 
 
 function callMethod(host, methodName, data, fnSuccess, fnError) {

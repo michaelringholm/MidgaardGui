@@ -89,13 +89,26 @@
 	<div id="meadhallTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
 	<div id="smithyOverlay" class="function" style="display:none; width: 560px; height: 108px; font-size: 20px; top: 40px; left: 40px; margin: 0px;"></div>
 	<div id="smithyInventory" class="function" style="display:none; width: 860px; height: 468px; font-size: 20px; background-color: transparent;">
-		<div class="smithyItemContainer" style="left: 140px; top: 20px;"></div>
-		<div class="smithyItemContainer" style="left: 140px; top: 160px;"></div>
-		<div class="smithyItemContainer" style="left: 140px; top: 300px;"></div>
-		<div class="smithyItemContainer" style="right: 200px; top: 20px;"></div>
-		<div class="smithyItemContainer" style="right: 200px; top: 160px;"></div>
-		<div class="smithyItemContainer" style="right: 200px; top: 300px;"></div>
+		<div id="smithyGold" class="section">
+			<img src="./resources/images/items/silver-coin.png" alt="silver" style="height: 32px; width: 32px; position: absolute; top:6px; left: 6px;" />
+			<div style="height: 32px; width: 32px; position: absolute; top:6px; left: 46px;">500</div>
+		</div>
+		<div class="smithyItemContainer itemContainer" style="left: 140px; top: 20px;"></div>
+		<div class="smithyItemContainer itemContainer" style="left: 140px; top: 160px;"></div>
+		<div class="smithyItemContainer itemContainer" style="left: 140px; top: 300px;"></div>
+		<div class="smithyItemContainer itemContainer" style="right: 200px; top: 20px;"></div>
+		<div class="smithyItemContainer itemContainer" style="right: 200px; top: 160px;"></div>
+		<div class="smithyItemContainer itemContainer" style="right: 200px; top: 300px;"></div>
 	</div>
+	<div id="characterScreenOverlay" class="function" style="display:none; width: 560px; height: 108px; font-size: 20px; top: 40px; left: 40px; margin: 0px;"></div>
+	<div id="characterScreen" class="function" style="display:none; width: 860px; height: 468px; font-size: 20px; background-color: transparent;">
+		<div class="characterItemContainer itemContainer" style="left: 140px; top: 20px;"></div>
+		<div class="characterItemContainer itemContainer" style="left: 140px; top: 160px;"></div>
+		<div class="characterItemContainer itemContainer" style="left: 140px; top: 300px;"></div>
+		<div class="characterItemContainer itemContainer" style="right: 200px; top: 20px;"></div>
+		<div class="characterItemContainer itemContainer" style="right: 200px; top: 160px;"></div>
+		<div class="characterItemContainer itemContainer" style="right: 200px; top: 300px;"></div>
+	</div>	
 	<div id="deathScreenTextOverlay" class="function" style="display:none; width: 760px; height: 68px; font-size: 20px;"></div>
 	
 	<canvas id="canvasLayer1" style="display: none"></canvas>
