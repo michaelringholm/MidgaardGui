@@ -28,6 +28,7 @@ $(function() {
 	
 	$("#btnMove").click(function() {move();});
 	$("#btnNextRound").click(function() {nextRound();});
+	$("#btnFleeBattle").click(function() {fleeBattle();});	
 	$("#btnEnterTown").click(function() {enterTown();});
 	$("#btnLeaveTown").click(function() {leaveTown();});
 	
@@ -196,6 +197,38 @@ function nextRoundSuccess(data) {
 }
 
 function nextRoundFailed(errorMsg) {
+	logInfo(errorMsg);
+}
+
+function fleeBattle() {
+	callMethod("http://" + hostIp + ":" + hostPort, "fleeBattle", gameSession, fleeBattleSuccess, fleeBattleFailed);
+}
+
+function fleeBattleSuccess(data) {
+	logInfo("flee battle OK!");
+	
+	if(data) {
+		if(data.battle) {
+			var battle = data.battle;
+			var hero = data.hero;
+			if(battle.status.over) {
+				logInfo("Battle is over!");
+				if(battle.status.winner == hero.name)
+					drawTreasureScreen(battle);
+				else
+					drawDeathScreen(hero);
+			}
+			else
+				drawBattleScreen(battle);			
+		}
+		else {
+			logInfo("You fleed from battle!");
+			drawMap(data);
+		}
+	}
+}
+
+function fleeBattleFailed(errorMsg) {
 	logInfo(errorMsg);
 }
 

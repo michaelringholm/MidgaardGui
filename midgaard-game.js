@@ -45,6 +45,28 @@ $(function() {
 	$("#gSessionId").html("gSessionId: N/A");
 });
 
+function printDebug(hero) {
+	$("#debugInfo").html("DEBUG:");
+	
+	if (hero) {
+		$("#debugInfo").append("<br>Name:" + hero.name);
+		$("#debugInfo").append("<br>Class:" + hero.heroClass);
+		$("#debugInfo").append("<br>Base HP:" + hero.baseHp);
+		$("#debugInfo").append("<br>HP:" + hero.hp);
+		$("#debugInfo").append("<br>Base Mana:" + hero.baseMana);
+		$("#debugInfo").append("<br>Mana:" + hero.mana);
+		$("#debugInfo").append("<br>XP:" + hero.xp);
+		$("#debugInfo").append("<br>Level:" + hero.level);
+		$("#debugInfo").append("<br>Int:" + hero.int);
+		$("#debugInfo").append("<br>Sta:" + hero.sta);
+		$("#debugInfo").append("<br>Str:" + hero.str);
+		$("#debugInfo").append("<br>Regen:" + hero.regen);
+		$("#debugInfo").append("<br>Min Atk:" + hero.minAtk);
+		$("#debugInfo").append("<br>Max Atk:" + hero.maxAtk);
+		$("#debugInfo").append("<br>Copper:" + hero.copper);
+	}
+}
+
 function viewCharacter() {
 	callMethod("http://" + hostIp + ":" + hostPort, "viewCharacter", gameSession, viewCharacterSuccess, viewCharacterFailed);
 }
@@ -138,6 +160,7 @@ function enterTownSuccess(data) {
 	logInfo(JSON.stringify(data));
 	
 	if(data.town) {
+		printDebug(data.hero);
 		var town = data.town;
 		logInfo("Entering the town of [" + town.name + "]!");
 		drawTown(town);
@@ -246,10 +269,11 @@ function chooseHero() {
 
 function chooseHeroSuccess(data) {
 	logInfo("choose hero OK!");
-	if(data) {		
+	if(data) {
+		printDebug(data.hero);
 		if(data.battle && data.battle.mob && data.battle.hero) { // The hero is already in a fight
 			drawBattleScreen(data.battle);
-			logInfo("you resume the battle!");
+			logInfo("you resume the battle!");			
 		}		
 		else if(data.town)
 			drawTown(data.town);
@@ -661,7 +685,8 @@ function drawSmithy(smithy) {
 			itemImgUrl = "./resources/images/items/128px-Wooden_Shield.png";					
 		
 		$(".smithyItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
-		
+		$(".smithyItemContainer:eq(" + itemIndex + ")").append('<div class="itemDetails" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;"></div>');
+		$(".smithyItemContainer").mouseover(function() { alert("test");});
 		// Maximum of 6 s
 		if (itemIndex > 5) {
             break;
