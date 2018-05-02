@@ -9,7 +9,7 @@ var hostPort = 0;
 $(function() {	
 	//hostIp = "www.opusmagus.com";
 	//hostPort = 83;
-	hostIp = "localhost";
+	hostIp = "sundgaard.ddns.net";
 	hostPort = 1337;
 	
 	canvasLayer1 = document.getElementById("canvasLayer1");
@@ -698,17 +698,22 @@ function drawCharacterSheet(hero) {
 	$(".function").hide();
 	$(canvasLayer2).hide();
 	$(canvasLayer1).hide();
-	$("#characterScreenOverlay").show();
+	//$("#characterScreenOverlay").show();
 	$("#characterScreen").show();
 	$("#townBottomToolbar").show();
 	
 	$("#container").css("background-image", "url('./resources/images/character-sheet-background.jpg')"); 	
 	$("#characterScreenOverlay").html("This is the character screen!<br/>");
 	//$("#characterScreenOverlay").append("The smith has around " + smithy.copper + " copper pieces!<br/>");
+	
+	$(".heroName").html("Name:" + hero.name);
+	$(".heroLevel").html("Level:" + hero.level);
+	$(".heroHP").html("HP:" + hero.hp);
+	$(".heroMoney").html("Copper:" + hero.copper);
 		
 	for(var itemIndex in hero.items) {
 		var name = hero.items[itemIndex].name;
-		var itemImgUrl = "./resources/images/org/items/StoneHatchet_Icon.png";
+		var itemImgUrl = "./resources/images/items/StoneHatchet_Icon.png";
 		
 		if(name == "long sword")
 			itemImgUrl = "./resources/images/items/StoneHatchet_Icon.png";
@@ -724,6 +729,10 @@ function drawCharacterSheet(hero) {
 			itemImgUrl = "./resources/images/items/beetle-shell.png";				
 		
 		$(".characterItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
+		
+		var value = hero.items[itemIndex].value;
+		if(!hero.items[itemIndex].value) value = 0;
+		$(".characterItemContainerMetaData:eq(" + itemIndex + ")").html(name + '<br>Value: ' + value + ' cp');
 		
 		// Maximum of 6 items
 		if (itemIndex > 5) {
