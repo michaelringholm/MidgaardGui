@@ -9,7 +9,8 @@ var hostPort = 0;
 $(function() {	
 	//hostIp = "www.opusmagus.com";
 	//hostPort = 83;
-	hostIp = "sundgaard.ddns.net";
+	//hostIp = "sundgaard.ddns.net";
+	hostIp = "localhost";
 	hostPort = 1337;
 	
 	canvasLayer1 = document.getElementById("canvasLayer1");
@@ -141,7 +142,7 @@ function visitMeadhallSuccess(data) {
 	if(data.town) {
 		var town = data.town;
 		logInfo("Entering the town of [" + town.name + "]!");
-		drawMeadhall(town);
+		drawMeadhall(town, data.actionResponse);
 	}
 	else
 		logInfo("There is no town at this location, continuing on map!");
@@ -152,7 +153,7 @@ function visitMeadhallFailed(errorMsg) {
 }
 
 function enterTown() {
-	callMethod("http://" + hostIp + ":" + hostPort, "enterTown", gameSession, enterTownSuccess, enterTownFailed);
+	post("Map", "EnterTown", gameSession, enterTownSuccess, enterTownFailed);
 }
 
 function enterTownSuccess(data) {
@@ -191,7 +192,7 @@ function leaveTownFailed(errorMsg) {
 function nextRound() {
 	$("#battleButtonBar").hide();
 	gameSession.attackType = $("#attackType").val();	
-	callMethod("http://" + hostIp + ":" + hostPort, "nextRound", gameSession, nextRoundSuccess, nextRoundFailed);
+	post("Battle", "NextRound", gameSession, nextRoundSuccess, nextRoundFailed);
 }
 
 function nextRoundSuccess(data) {
@@ -232,7 +233,7 @@ function move(direction) {
 	else
 		gameSession.direction = direction;
 	
-	callMethod("http://" + hostIp + ":" + hostPort, "move", gameSession, moveSuccess, moveFailed);
+	post("Map", "Move", gameSession, moveSuccess, moveFailed);
 }
 
 function moveSuccess(data) {
@@ -263,7 +264,7 @@ function chooseHero() {
 	
 	if (heroName) {
 		gameSession.heroName = heroName;
-		callMethod("http://" + hostIp + ":" + hostPort, "chooseHero", gameSession, chooseHeroSuccess, chooseHeroFailed);
+		post("Hero", "ChooseHero", gameSession, chooseHeroSuccess, chooseHeroFailed);
 	}	
 }
 
@@ -323,7 +324,8 @@ function createLoginFailed(errorMsg) {
 
 function login() {
 	var clientLogin = {name:$("#login").val(), password:$("#password").val()};
-	callMethod("http://" + hostIp + ":" + hostPort, "login", clientLogin, loginSuccess, loginFailed);
+	//callMethod("http://" + hostIp + ":" + hostPort, "login", clientLogin, loginSuccess, loginFailed);
+	post("Login", "Login", clientLogin, loginSuccess, loginFailed);
 }
 
 function loginSuccess(serverGameSession) {
@@ -581,7 +583,7 @@ function drawCreateHeroScreen() {
 	$("#container").css("background-image", "url('./resources/images/login-background.jpg')"); 
 }
 
-function drawMeadhall(town) {
+function drawMeadhall(town, actionResponse) {
 	$(".function").hide();
 	$(canvasLayer2).hide();
 	$(canvasLayer1).hide();
@@ -590,8 +592,13 @@ function drawMeadhall(town) {
 	
 	$("#container").css("background-image", "url('./resources/images/meadhall-background.jpg')"); 	
 	
-	$("#meadhallTextOverlay").html("You feel rested, and both body and mind feels renewed!<br/>");
-	$("#meadhallTextOverlay").append("Your happily pay the head brewer what you owe him!");
+	if(actionResponse.success) {
+		$("#meadhallTextOverlay").html("You feel rested, and both body and mind feels renewed!<br/>");
+		$("#meadhallTextOverlay").append("Your happily pay the head brewer what you owe him!");
+	}
+	else {
+		$("#meadhallTextOverlay").html(actionResponse.reason + "<br/>");
+	}
 }
 
 function drawTreasureScreen(battle) {
@@ -686,13 +693,23 @@ function drawSmithy(smithy) {
 		
 		$(".smithyItemContainer:eq(" + itemIndex + ")").html('<img src="' + itemImgUrl + '" alt="' + name + '" title="' + name + '" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;" />');
 		$(".smithyItemContainer:eq(" + itemIndex + ")").append('<div class="itemDetails" style="height: 64px; width: 64px; position: absolute; top:6px; left: 6px;"></div>');
-		$(".smithyItemContainer").mouseover(function() { alert("test");});
-		// Maximum of 6 s
+		$(".smithyItemContainer").mouseover(function() { console.log("show item popup..."); });
+		$(".smithyItemContainer").click(function() { post("Smithy", "BuyItem", gameSession, buyItemSuccess, buyItemFailed); });
+		
+		// Maximum of 6 items
 		if (itemIndex > 5) {
             break;
         }
 	}
 };
+
+function buyItemSuccess() {
+
+}
+
+function buyItemFailed() {
+
+}
 
 function drawCharacterSheet(hero) {
 	$(".function").hide();
@@ -771,6 +788,9 @@ function drawCharacterSheetOld(hero) {
 	ctx1.fillText("LUCK:" + hero.luck,740,320);	
 }
 
+function post(controller, methodName, data, fnSuccess, fnError) {
+	callMethod("http://" + hostIp + ":" + hostPort, controller + "/" + methodName, data, fnSuccess, fnError);
+}
 
 function callMethod(host, methodName, data, fnSuccess, fnError) {
 	$.ajax({
